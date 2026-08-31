@@ -47,7 +47,7 @@ public class GuardHornItem extends Item {
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 hornSound, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        player.getCooldowns().addCooldown(this, ModCommonConfig.cooldownTicks);
+        player.getCooldowns().addCooldown(this, ModCommonConfig.CONFIG.getCooldownTicks());
         player.startUsingItem(hand);
         //返回 success 表示使用成功但不消耗物品
         return InteractionResultHolder.consume(stack);
