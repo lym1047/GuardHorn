@@ -28,7 +28,7 @@ public class WitchMixin {
     @Inject(method = "performRangedAttack", at = @At("HEAD"), cancellable = true)
     private void guardhorn$throwHealingAtZombies(LivingEntity target, float velocity, CallbackInfo ci) {
         // 功能开关关闭，或目标不是僵尸时，交给原版逻辑
-        if (!ModCommonConfig.CONFIG.isEnableZombieVsIllager()) return;
+        if (!ModCommonConfig.CONFIG.isEnableWitchMixin()) return;
         if (!(target instanceof Zombie)) return;
 
         Witch witch = (Witch) (Object) this;
