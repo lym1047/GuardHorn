@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "com/Ming/GuardHorn/mixin/mixins/WitchMixin": {
+      "performRangedAttack": "Lnet/minecraft/world/entity/monster/Witch;m_6504_(Lnet/minecraft/world/entity/LivingEntity;F)V"
+    },
+    "com/Ming/GuardHorn/mixin/mixins/GuardMeleeGoalMixin": {
+      "tick": "Ltallestegg/guardvillagers/entities/Guard$GuardMeleeGoal;m_8037_()V",
+      "Lnet/minecraft/world/entity/ai/control/MoveControl;strafe(FF)V": "Lnet/minecraft/world/entity/ai/control/MoveControl;m_24988_(FF)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "com/Ming/GuardHorn/mixin/mixins/WitchMixin": {
+        "performRangedAttack": "Lnet/minecraft/world/entity/monster/Witch;m_6504_(Lnet/minecraft/world/entity/LivingEntity;F)V"
+      },
+      "com/Ming/GuardHorn/mixin/mixins/GuardMeleeGoalMixin": {
+        "tick": "Ltallestegg/guardvillagers/entities/Guard$GuardMeleeGoal;m_8037_()V",
+        "Lnet/minecraft/world/entity/ai/control/MoveControl;strafe(FF)V": "Lnet/minecraft/world/entity/ai/control/MoveControl;m_24988_(FF)V"
+      }
+    }
+  }
+}
