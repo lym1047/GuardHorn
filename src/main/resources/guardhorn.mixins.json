@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.ming.guardhorn.mixin.mixins",
+  "mixins": [
+    "WitchMixin",
+    "GuardMeleeGoalMixin"
+  ],
+  "client": [
+  ],
+  "server": [
+  ],
+  "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
