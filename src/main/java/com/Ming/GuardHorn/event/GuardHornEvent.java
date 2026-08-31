@@ -33,7 +33,7 @@ public class GuardHornEvent {
 
         Player player = event.getEntity();
         if (event.getLevel().isClientSide) return;
-        if (event.getItemStack().getItem() != ModItems.VILLAGER_HORN.get()) return;
+        if (event.getItemStack().getItem() != ModItems.GUARD_HORN.get()) return;
         if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) return;
         ServerLevel level = serverPlayer.serverLevel();
         if (!ModList.get().isLoaded("guardvillagers")) {
@@ -43,18 +43,20 @@ public class GuardHornEvent {
 
         EntityType<Guard> guard_type = GuardEntityType.GUARD.get();
 
-        ResourceLocation advId = new ResourceLocation("minecraft", "adventure/hero_of_the_village");
-        Advancement advancement = serverPlayer.server.getAdvancements().getAdvancement(advId);
-        if (advancement == null) {
-            LOGGER.warn("未找到进度：adventure/hero_of_the_village");
-            return;
-        }
+        if (!ModCommonConfig.noAdvancements) {
+            ResourceLocation advId = new ResourceLocation("minecraft", "adventure/hero_of_the_village");
+            Advancement advancement = serverPlayer.server.getAdvancements().getAdvancement(advId);
+            if (advancement == null) {
+                LOGGER.warn("未找到进度：adventure/hero_of_the_village");
+                return;
+            }
 
-        AdvancementProgress progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
-        if (!progress.isDone()) {
-            serverPlayer.sendSystemMessage(Component.literal("请先成功一次抵御袭击后再使用"), false);
-            LOGGER.info("玩家 {} 尚未完成村庄英雄进度，无效果。", serverPlayer.getName().getString());
-            return;
+            AdvancementProgress progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
+            if (!progress.isDone()) {
+                serverPlayer.sendSystemMessage(Component.literal("请先成功一次抵御袭击后再使用"), false);
+                LOGGER.info("玩家 {} 尚未完成村庄英雄进度，无效果。", serverPlayer.getName().getString());
+                return;
+            }
         }
 
         serverPlayer.addEffect(new MobEffectInstance(
