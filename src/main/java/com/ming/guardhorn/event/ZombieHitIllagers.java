@@ -1,7 +1,6 @@
 package com.ming.guardhorn.event;
 
 import com.ming.guardhorn.config.ModCommonConfig;
-import com.mojang.logging.LogUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -9,14 +8,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import org.slf4j.Logger;
 
 public class ZombieHitIllagers {
-//    private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
     public void onEntityJoin(EntityJoinLevelEvent event) {
-        if (!ModCommonConfig.enableZombieVsIllager) {
+        if (!ModCommonConfig.CONFIG.isEnableZombieVsIllager()) {
             return;
         }
 
@@ -25,8 +22,8 @@ public class ZombieHitIllagers {
 
         EntityType<?> type = mob.getType();
 
-        // 僵尸攻击所有灾厄村民、劫掠兽和女巫
-        if (type == EntityType.ZOMBIE) {
+        // 所有类型僵尸攻击所有灾厄村民、劫掠兽和女巫
+        if (mob instanceof Zombie) {
             mob.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(mob, LivingEntity.class, 10, true, false,
                     this::isIllagerRavagerOrWitch
             ));
