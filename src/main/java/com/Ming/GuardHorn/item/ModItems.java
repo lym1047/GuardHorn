@@ -1,19 +1,19 @@
-package com.Ming.GuardHorn.item;
+package com.ming.guardhorn.item;
 
-import com.Ming.GuardHorn.GuardHornMod;
-import com.Ming.GuardHorn.features.GuardHornItem;
+import com.ming.guardhorn.features.GuardHornItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
+import static com.ming.guardhorn.GuardHornMod.MOD_ID;
 
 public class ModItems {
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, GuardHornMod.MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
 
-    public static final RegistryObject<Item> VILLAGER_HORN = 
+    public static final DeferredItem<GuardHornItem> GUARD_HORN =
             ITEMS.register("guard_horn", () -> new GuardHornItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
