@@ -30,7 +30,7 @@ public class GuardHornEvent {
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
         if (event.getLevel().isClientSide()) return;
-        if (event.getItemStack().getItem() != ModItems.VILLAGER_HORN.get()) return;
+        if (event.getItemStack().getItem() != ModItems.GUARD_HORN.get()) return;
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
         ServerLevel level = serverPlayer.serverLevel();
@@ -41,20 +41,21 @@ public class GuardHornEvent {
 
         EntityType<Guard> guard_type = GuardEntityType.GUARD.get();
 
-        ResourceLocation advId = ResourceLocation.fromNamespaceAndPath("minecraft", "adventure/hero_of_the_village");
+        if (!ModCommonConfig.CONFIG.isNoAdvancements()) {
+            ResourceLocation advId = ResourceLocation.fromNamespaceAndPath("minecraft", "adventure/hero_of_the_village");
 
-        AdvancementHolder advancement = serverPlayer.server.getAdvancements().get(advId);
-        if (advancement == null) {
-            LOGGER.warn("未找到进度：adventure/hero_of_the_village");
-            return;
-        }
+            AdvancementHolder advancement = serverPlayer.server.getAdvancements().get(advId);
+            if (advancement == null) {
+                LOGGER.warn("未找到进度：adventure/hero_of_the_village");
+                return;
+            }
 
-        AdvancementProgress progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
-
-        if (!progress.isDone()) {
-            serverPlayer.sendSystemMessage(Component.literal("请先成功一次抵御袭击后再使用"), false);
-            LOGGER.info("玩家 {} 尚未完成村庄英雄进度，无效果。", serverPlayer.getName().getString());
-            return;
+            AdvancementProgress progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
+            if (!progress.isDone()) {
+                serverPlayer.sendSystemMessage(Component.literal("请先成功一次抵御袭击后再使用"), false);
+                LOGGER.info("玩家 {} 尚未完成村庄英雄进度，无效果。", serverPlayer.getName().getString());
+                return;
+            }
         }
 
         serverPlayer.addEffect(new MobEffectInstance(
@@ -66,7 +67,8 @@ public class GuardHornEvent {
                 true
         ));
 
-        for (int i = 0; i < ModCommonConfig.guardCount; i++) {
+        int guardCount = ModCommonConfig.CONFIG.getGuardCount();
+        for (int i = 0; i < guardCount; i++) {
             double x = player.getX() + (level.random.nextDouble() - 0.5) * 2;
             double y = player.getY();
             double z = player.getZ() + (level.random.nextDouble() - 0.5) * 2;
@@ -86,6 +88,6 @@ public class GuardHornEvent {
                 LOGGER.warn("守卫生成失败");
             }
         }
-        LOGGER.info("生成 {} 个警卫村民", ModCommonConfig.guardCount);
+        LOGGER.info("生成 {} 个警卫村民", guardCount);
     }
 }
