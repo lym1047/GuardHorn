@@ -6,6 +6,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = GuardHornMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModCommonConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -21,7 +24,15 @@ public class ModCommonConfig {
     public static final ForgeConfigSpec.BooleanValue ENABLE_ZOMBIE_VS_ILLAGER = BUILDER
             .comment("\n启用僵尸与灾厄村民之间的敌对行为\n默认值：true")
             .define("enable_zombie_vs_illager", true);
-
+    public static final ForgeConfigSpec.BooleanValue NO_ADVANCEMENTS = BUILDER
+            .comment("\n无需获得“村庄英雄”进度就能使用警卫号角\n默认值：false")
+            .define("no_advancements", false);
+    public static  final ForgeConfigSpec.BooleanValue IS_MELEE_BACK_OFF = BUILDER
+            .comment("\n警卫近战是否后撤\n默认值：true（原版行为）")
+            .define("melee_backoff", true);
+    public static  final  ForgeConfigSpec.ConfigValue<List<? extends  String>> ILLAGER_EXTRA_HOSTILE_TARGETS = BUILDER
+            .comment("\n灾厄村民（含劫掠兽、女巫）额外敌对的生物\n填入实体注册名，如 [\"minecraft:warden\", \"minecraft:wither\"]\n默认值：空列表")
+            .defineListAllowEmpty("illager_extra_hostile_targets", ArrayList::new, o -> o instanceof  String);
 
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
@@ -30,6 +41,9 @@ public class ModCommonConfig {
     public static int cooldownTicks;
     public static int guardCount;
     public static boolean enableZombieVsIllager;
+    public static boolean noAdvancements;
+    public static boolean melee_backoff;
+    public static List<? extends String> extraHostileTargets;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -37,5 +51,8 @@ public class ModCommonConfig {
         cooldownTicks = COOLDOWN_TICKS.get();
         guardCount = GUARD_COUNT.get();
         enableZombieVsIllager = ENABLE_ZOMBIE_VS_ILLAGER.get();
+        noAdvancements = NO_ADVANCEMENTS.get();
+        melee_backoff = IS_MELEE_BACK_OFF.get();
+        extraHostileTargets = ILLAGER_EXTRA_HOSTILE_TARGETS.get();
     }
 }
